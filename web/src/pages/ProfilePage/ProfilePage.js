@@ -1,6 +1,8 @@
 import { Link, routes } from '@redwoodjs/router'
+import { useAuth } from '@redwoodjs/auth'
 
 const ProfilePage = () => {
+  const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   return (
     <>
       <header>
@@ -10,13 +12,18 @@ const ProfilePage = () => {
             <li>
               <Link to={routes.profile()}>Profile</Link>
             </li>
+            <li>
+              <a href="#" onClick={isAuthenticated ? logOut : logIn}>
+              { isAuthenticated ? 'Log Out' : 'Log In' }
+            </a>
+          </li>
           </ul>
         </nav>
       </header>
       <main>
         <p>
-          This site was created to demonstrate my mastery of Redwood: Look on my
-          works, ye mighty, and despair!
+          You are logged in, your email is:
+          { isAuthenticated && <span>{currentUser.email}</span> }
         </p>
         <Link to={routes.home()}>Return home</Link>
       </main>
